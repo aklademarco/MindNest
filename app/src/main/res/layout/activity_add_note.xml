@@ -1,0 +1,111 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/titleEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Note Title"
+                android:textSize="18sp"
+                android:background="@drawable/textinput_bg" />
+
+            <EditText
+                android:id="@+id/bodyEditText"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:hint="Write your note..."
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:background="@drawable/textinput_bg"
+                android:layout_marginTop="16dp" />
+
+
+
+            <ImageView
+                android:id="@+id/noteImageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="12dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/saveNoteBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save Note"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/black"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </ScrollView>
+
+
+    <!-- FAB Main Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/black"
+        app:tint="@android:color/white" />
+
+    <!-- Add Photo -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/ic_photo"
+        android:visibility="gone"
+        app:backgroundTint="@color/black"
+        app:tint="@android:color/white"
+        android:layout_gravity="bottom|end" />
+
+    <!-- Add File -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="170dp"
+        android:src="@drawable/ic_file"
+        android:visibility="gone"
+        app:backgroundTint="@color/black"
+        app:tint="@android:color/white"
+        android:layout_gravity="bottom|end" />
+
+    <!-- Add Music -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="240dp"
+        android:src="@drawable/ic_music"
+        android:visibility="gone"
+        app:backgroundTint="@color/black"
+        app:tint="@android:color/white" />
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
