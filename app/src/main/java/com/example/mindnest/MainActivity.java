@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -20,7 +21,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,17 +39,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        // ✅ If user is already signed in, skip to NoteList
+        if (mAuth.getCurrentUser() != null) {
+            startActivity(new Intent(MainActivity.this, NoteList.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_main);
 
         // Initialize UI components
         emailField = findViewById(R.id.editTextTextEmailAddress);
         passwordField = findViewById(R.id.editTextTextPassword);
         loginButton = findViewById(R.id.button);
-        googleButton = findViewById(R.id.button2); // Use the actual ID from your XML
+        googleButton = findViewById(R.id.button2);
         showHidePasswordIcon = findViewById(R.id.showHidePasswordIcon);
-
-        // Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
 
         // Email/Password login
         loginButton.setOnClickListener(v -> loginUser());
@@ -69,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Configure Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id)) // Defined in strings.xml
+                .requestIdToken(getString(R.string.default_web_client_id)) // in strings.xml
                 .requestEmail()
                 .build();
 
@@ -77,6 +84,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Google sign-in
         googleButton.setOnClickListener(view -> signInWithGoogle());
+
+        // Sign-up prompt
+        TextView signUpPrompt = findViewById(R.id.signUpPrompt);
+        signUpPrompt.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, signUp.class);
+            startActivity(intent);
+        });
     }
 
     private void loginUser() {
@@ -126,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        Intent intent = new Intent(MainActivity.this, AddNote.class);
+                        // ✅ Go to NoteList (not AddNote)
+                        Intent intent = new Intent(MainActivity.this, NoteList.class);
                         startActivity(intent);
                         finish();
                     } else {

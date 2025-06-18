@@ -1,12 +1,16 @@
 package com.example.mindnest;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,27 +44,42 @@ public class NoteList extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
+        // Load notes from Firestore
         loadNotes();
+
+        FloatingActionButton addNoteButton = findViewById(R.id.addNoteButton);
+        addNoteButton.setOnClickListener(v -> {
+            Intent intent = new Intent(NoteList.this, AddNote.class);
+            startActivity(intent);
+        });
     }
 
     private void loadNotes() {
+        TextView emptyMessage = findViewById(R.id.emptyMessage);
+
         db.collection("notes")
                 .whereEqualTo("userId", mAuth.getCurrentUser().getUid())
                 .orderBy("timestamp", Query.Direction.DESCENDING)
-                .addSnapshotListener((snapshots, error) -> {
+                .addSnapshotListener((querySnapshot, error) -> {
                     if (error != null) {
                         Toast.makeText(this, "Failed to load notes", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     noteList.clear();
-                    for (DocumentSnapshot doc : snapshots) {
-                        Map<String, Object> note = doc.getData();
-                        if (note != null) {
-                            note.put("id", doc.getId());
-                            noteList.add(note);
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        for (DocumentSnapshot doc : querySnapshot) {
+                            Map<String, Object> note = doc.getData();
+                            if (note != null) {
+                                note.put("id", doc.getId());
+                                noteList.add(note);
+                            }
                         }
+                        emptyMessage.setVisibility(View.GONE);
+                    } else {
+                        emptyMessage.setVisibility(View.VISIBLE);
                     }
+
                     adapter.notifyDataSetChanged();
                 });
     }

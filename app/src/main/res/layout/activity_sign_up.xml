@@ -6,22 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
+    android:background="@color/background"
     tools:context=".signUp">
 
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/logoImage"
-        android:layout_width="326dp"
-        android:layout_height="324dp"
+        android:layout_width="260dp"
+        android:layout_height="226dp"
         android:layout_marginTop="12dp"
         android:scaleType="centerCrop"
         android:src="@drawable/mindnest"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.008"
         app:shapeAppearanceOverlay="@style/CircularImage" />
 
     <TextView
@@ -91,14 +91,14 @@
         android:id="@+id/signUpButton"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="18dp"
         android:backgroundTint="@color/text_primary"
         android:text="Sign Up"
         android:textColor="@color/secondary"
         android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/confirmPasswordEditText"
         app:layout_constraintVertical_bias="0.0" />

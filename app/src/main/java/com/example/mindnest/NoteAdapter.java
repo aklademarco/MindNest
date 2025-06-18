@@ -3,23 +3,23 @@ package com.example.mindnest;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 import java.util.Map;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
-    private final List<Map<String, Object>> notes;
+    List<Map<String, Object>> noteList;
 
-    public NoteAdapter(List<Map<String, Object>> notes) {
-        this.notes = notes;
+    public NoteAdapter(List<Map<String, Object>> noteList) {
+        this.noteList = noteList;
     }
 
     @NonNull
@@ -32,36 +32,40 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        Map<String, Object> note = notes.get(position);
-
+        Map<String, Object> note = noteList.get(position);
         holder.title.setText((String) note.get("title"));
         holder.body.setText((String) note.get("body"));
 
-        String imageUrl = (String) note.get("imageUrl");
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            holder.image.setVisibility(View.VISIBLE);
-            Glide.with(holder.itemView.getContext())
-                    .load(imageUrl)
-                    .into(holder.image);
-        } else {
-            holder.image.setVisibility(View.GONE);
-        }
+        // 🔴 Long-click to delete
+        holder.itemView.setOnLongClickListener(v -> {
+            String noteId = (String) note.get("id");
+            FirebaseFirestore.getInstance().collection("notes")
+                    .document(noteId)
+                    .delete()
+                    .addOnSuccessListener(aVoid -> {
+                        noteList.remove(position);
+                        notifyItemRemoved(position);
+                        Toast.makeText(v.getContext(), "Note deleted", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(v.getContext(), "Delete failed", Toast.LENGTH_SHORT).show();
+                    });
+            return true;
+        });
     }
 
     @Override
     public int getItemCount() {
-        return notes.size();
+        return noteList.size();
     }
 
-    static class NoteViewHolder extends RecyclerView.ViewHolder {
+    public static class NoteViewHolder extends RecyclerView.ViewHolder {
         TextView title, body;
-        ImageView image;
 
-        NoteViewHolder(View itemView) {
+        public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.noteTitle);
             body = itemView.findViewById(R.id.noteBody);
-            image = itemView.findViewById(R.id.noteImage);
         }
     }
 }
