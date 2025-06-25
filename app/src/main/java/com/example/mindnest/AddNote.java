@@ -86,6 +86,19 @@ public class AddNote extends AppCompatActivity {
                     Toast.makeText(this, "Delete clicked", Toast.LENGTH_SHORT).show();
                     return true;
                 }
+                else if (id == R.id.action_save) {
+                    saveNote(); // ✅ Saves current note
+                    return true;
+                } else if (id == R.id.action_profile) {
+                    startActivity(new Intent(this, ProfileActivity.class));
+                    return true;
+                } else if (id == R.id.action_logout) {
+                    mAuth.signOut();
+                    startActivity(new Intent(this, MainActivity.class)); // or LoginActivity
+                    finish();
+                    return true;
+                }
+
 
                 return false;
             });

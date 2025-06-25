@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -91,6 +92,21 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- ⬇️ Bottom Formatting Toolbar -->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAiHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="36dp"
+        android:backgroundTint="@color/secondary"
+        android:contentDescription="AI Help"
+        android:src="@drawable/ic_chatbot"
+        android:tint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Fab.Circle"
+        tools:layout_editor_absoluteY="582dp" />
+
     <LinearLayout
         android:id="@+id/bottomToolbar"
         android:layout_width="match_parent"

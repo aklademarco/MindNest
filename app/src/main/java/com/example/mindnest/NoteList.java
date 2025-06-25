@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -52,6 +56,23 @@ public class NoteList extends AppCompatActivity {
             startActivity(new Intent(NoteList.this, AddNote.class));
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.note_list_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_profile) {
+            startActivity(new Intent(NoteList.this, ProfileActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void loadNotes() {
         TextView emptyMessage = findViewById(R.id.emptyMessage); // Optional, depends on layout
