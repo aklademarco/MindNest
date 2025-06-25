@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -16,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,13 +28,9 @@ import java.util.Map;
 public class AddNote extends AppCompatActivity {
 
     EditText titleEditText, bodyEditText;
-    Button saveNoteBtn;
     ImageView noteImageView;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
-
-    FloatingActionButton fabMain, fabPhoto, fabFile, fabMusic;
-    boolean isFabOpen = false;
 
     private static final int PICK_IMAGE = 1;
     private static final int PICK_FILE = 2;
@@ -53,76 +47,59 @@ public class AddNote extends AppCompatActivity {
 
         titleEditText = findViewById(R.id.titleEditText);
         bodyEditText = findViewById(R.id.bodyEditText);
-        saveNoteBtn = findViewById(R.id.saveNoteBtn);
-        noteImageView = findViewById(R.id.noteImageView);
+//        noteImageView = findViewById(R.id.noteImageView); // If used later
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        fabMain = findViewById(R.id.fabMain);
-        fabPhoto = findViewById(R.id.fabPhoto);
-        fabFile = findViewById(R.id.fabFile);
-        fabMusic = findViewById(R.id.fabMusic);
+        // Optional toolbar functionality can be added here if needed
+        findViewById(R.id.backIcon).setOnClickListener(v -> onBackPressed());
+        findViewById(R.id.undoIcon).setOnClickListener(v -> Toast.makeText(this, "Undo", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.redoIcon).setOnClickListener(v -> Toast.makeText(this, "Redo", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.shareIcon).setOnClickListener(v -> Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.menuIcon).setOnClickListener(v -> {
+            androidx.appcompat.widget.PopupMenu popupMenu = new androidx.appcompat.widget.PopupMenu(this, v);
+            popupMenu.getMenuInflater().inflate(R.menu.note_more_menu, popupMenu.getMenu());
 
-        fabMain.setOnClickListener(v -> toggleFabMenu());
-        fabPhoto.setOnClickListener(v -> pickImage());
-        fabFile.setOnClickListener(v -> pickFile());
-        fabMusic.setOnClickListener(v -> pickMusic());
-        saveNoteBtn.setOnClickListener(v -> saveNote());
-    }
+            popupMenu.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
 
-    private void toggleFabMenu() {
-        int visibility = isFabOpen ? View.GONE : View.VISIBLE;
-        fabPhoto.setVisibility(visibility);
-        fabFile.setVisibility(visibility);
-        fabMusic.setVisibility(visibility);
-        isFabOpen = !isFabOpen;
-    }
+                if (id == R.id.action_lock) {
+                    Toast.makeText(this, "Lock clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (id == R.id.action_pin) {
+                    Toast.makeText(this, "Pin clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (id == R.id.action_scan) {
+                    Toast.makeText(this, "Scan clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (id == R.id.action_find) {
+                    Toast.makeText(this, "Find in Note clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (id == R.id.action_recent) {
+                    Toast.makeText(this, "Recent Notes clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (id == R.id.action_lines_grids) {
+                    Toast.makeText(this, "Lines and Grids clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (id == R.id.action_delete) {
+                    Toast.makeText(this, "Delete clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
 
-    private void pickImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, PICK_IMAGE);
-    }
+                return false;
+            });
 
-    private void pickFile() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        startActivityForResult(intent, PICK_FILE);
-    }
 
-    private void pickMusic() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("audio/*");
-        startActivityForResult(intent, PICK_MUSIC);
-    }
+            popupMenu.show();
+        });
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && data != null) {
-            Uri selectedUri = data.getData();
-            if (selectedUri == null) return;
-
-            switch (requestCode) {
-                case PICK_IMAGE:
-                    selectedImageUri = selectedUri;
-                    noteImageView.setImageURI(selectedImageUri);
-                    noteImageView.setVisibility(View.VISIBLE);
-                    break;
-
-                case PICK_FILE:
-                    selectedFileUri = selectedUri;
-                    Toast.makeText(this, "File: " + getFileName(selectedUri), Toast.LENGTH_SHORT).show();
-                    break;
-
-                case PICK_MUSIC:
-                    selectedMusicUri = selectedUri;
-                    Toast.makeText(this, "Music: " + getFileName(selectedUri), Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        }
+        findViewById(R.id.formatIcon).setOnClickListener(v -> Toast.makeText(this, "Format", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.bulletIcon).setOnClickListener(v -> Toast.makeText(this, "Bullet", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.checklistIcon).setOnClickListener(v -> Toast.makeText(this, "Checklist", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.tableIcon).setOnClickListener(v -> Toast.makeText(this, "Table", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.attachIcon).setOnClickListener(v -> Toast.makeText(this, "Attach", Toast.LENGTH_SHORT).show());
     }
 
     private void saveNote() {
@@ -216,5 +193,4 @@ public class AddNote extends AppCompatActivity {
 
         return result != null ? result : "unknown_file";
     }
-
 }

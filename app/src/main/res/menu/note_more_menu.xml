@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_lock" android:title="Lock" />
+    <item android:id="@+id/action_pin" android:title="Pin" />
+    <item android:id="@+id/action_scan" android:title="Scan" />
+    <item android:id="@+id/action_find" android:title="Find in Note" />
+    <item android:id="@+id/action_recent" android:title="Recent Notes" />
+    <item android:id="@+id/action_lines_grids" android:title="Lines and Grids" />
+    <item android:id="@+id/action_delete" android:title="Delete" />
+</menu>

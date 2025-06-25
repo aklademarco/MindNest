@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:elevation="4dp"
-    card_view:cardCornerRadius="16dp"
-    android:background="@color/text_primary">
+    android:backgroundTint="@color/secondary"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,32 +16,23 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <ImageView
-            android:id="@+id/noteImage"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:scaleType="centerCrop"
-            android:visibility="gone"
-            android:layout_marginBottom="8dp" />
-
         <TextView
             android:id="@+id/noteTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Note Title"
-            android:textSize="18sp"
+            android:textColor="@color/text_primary"
             android:textStyle="bold"
-            android:textColor="@color/text_primary"/>
+            android:textSize="16sp"
+            android:maxLines="2"
+            android:ellipsize="end"/>
 
         <TextView
-            android:id="@+id/noteBody"
+            android:id="@+id/noteDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Note body preview"
-            android:maxLines="3"
-            android:ellipsize="end"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="4dp"/>
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:paddingTop="6dp"/>
+
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

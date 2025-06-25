@@ -34,7 +34,8 @@ public class NoteList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_list);
 
-        recyclerView = findViewById(R.id.notesRecyclerView);
+        recyclerView = findViewById(R.id.noteRecyclerView); // ✅ updated ID
+
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         noteList = new ArrayList<>();
@@ -44,18 +45,16 @@ public class NoteList extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        // Load notes from Firestore
         loadNotes();
 
-        FloatingActionButton addNoteButton = findViewById(R.id.addNoteButton);
+        FloatingActionButton addNoteButton = findViewById(R.id.fabAddNote); // ✅ updated ID
         addNoteButton.setOnClickListener(v -> {
-            Intent intent = new Intent(NoteList.this, AddNote.class);
-            startActivity(intent);
+            startActivity(new Intent(NoteList.this, AddNote.class));
         });
     }
 
     private void loadNotes() {
-        TextView emptyMessage = findViewById(R.id.emptyMessage);
+        TextView emptyMessage = findViewById(R.id.emptyMessage); // Optional, depends on layout
 
         db.collection("notes")
                 .whereEqualTo("userId", mAuth.getCurrentUser().getUid())
@@ -75,9 +74,6 @@ public class NoteList extends AppCompatActivity {
                                 noteList.add(note);
                             }
                         }
-                        emptyMessage.setVisibility(View.GONE);
-                    } else {
-                        emptyMessage.setVisibility(View.VISIBLE);
                     }
 
                     adapter.notifyDataSetChanged();

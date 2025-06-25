@@ -4,5 +4,9 @@
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">20%</item>
     </style>
+    <style name="ShapeAppearance.Fab.Circle" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
 
 </resources>

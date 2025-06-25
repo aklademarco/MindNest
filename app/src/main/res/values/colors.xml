@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#4A90E2</color> <!-- Soft blue -->
-    <color name="secondary">#4A2E6C</color> <!-- Gentle green -->
-    <color name="background">#C4B2E8</color> <!-- Light background -->
-    <color name="text_primary">#fff</color>
-    <color name="text_secondary">#333</color>
+    <color name="primary">#393737</color> <!-- Soft blue -->
+    <color name="secondary">#FE6902</color> <!-- Gentle green -->
+    <color name="background">#010101</color> <!-- Light background -->
+    <color name="text_primary">#E5E5E5</color>
+    <color name="text_secondary">#1B1B1B</color>
+    <color name="supporting_color">#262626</color>
 </resources>

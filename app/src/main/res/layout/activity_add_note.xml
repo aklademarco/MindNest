@@ -1,113 +1,141 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:padding="16dp">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <!-- 🔝 Top Icons Row -->
+    <LinearLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="24dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/titleEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Note Title"
-                android:textSize="18sp"
-                android:background="@drawable/textinput_bg" />
-
-            <EditText
-                android:id="@+id/bodyEditText"
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:hint="Write your note..."
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:background="@drawable/textinput_bg"
-                android:layout_marginTop="16dp" />
-
-
-
-            <ImageView
-                android:id="@+id/noteImageView"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="12dp"
-                android:scaleType="centerCrop"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/saveNoteBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Save Note"
-                android:textSize="24dp"
-                android:layout_marginTop="24dp"
-                android:backgroundTint="@color/text_primary"
-                android:textColor="@color/secondary" />
-        </LinearLayout>
-    </ScrollView>
-
-
-    <!-- FAB Main Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabMain"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="@color/text_primary"
-        app:tint="@color/secondary" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Add Photo -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabPhoto"
-        android:layout_width="wrap_content"
+        <ImageView android:id="@+id/backIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="Back" />
+
+        <View android:layout_width="0dp" android:layout_weight="1" android:layout_height="0dp" />
+
+        <ImageView android:id="@+id/undoIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_undo"
+            android:contentDescription="Undo" />
+
+        <ImageView android:id="@+id/redoIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_redo"
+            android:contentDescription="Redo" />
+
+        <ImageView android:id="@+id/shareIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_share"
+            android:contentDescription="Share" />
+
+        <ImageView android:id="@+id/menuIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_more_vert"
+            android:contentDescription="More" />
+    </LinearLayout>
+
+    <!-- 📝 Title Field -->
+    <EditText
+        android:id="@+id/titleEditText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="100dp"
-        android:src="@drawable/ic_photo"
-        android:visibility="gone"
-        app:backgroundTint="@color/primary"
-        app:tint="@android:color/white"
-        android:layout_gravity="bottom|end" />
+        android:hint="Title"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:background="@android:color/transparent"
+        android:inputType="textCapSentences"
+        android:textColor="@color/text_primary"
+        android:maxLines="2"
+        android:paddingTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/topBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Add File -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabFile"
-        android:layout_width="wrap_content"
+    <!-- 📝 Body Field -->
+    <EditText
+        android:id="@+id/bodyEditText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:hint="Start writing..."
+        android:background="@android:color/transparent"
+        android:inputType="textMultiLine|textCapSentences"
+        android:textColor="@color/text_secondary"
+        android:gravity="top"
+        android:textSize="16sp"
+        android:paddingTop="12dp"
+        android:overScrollMode="always"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@id/titleEditText"
+        app:layout_constraintBottom_toTopOf="@+id/bottomToolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ⬇️ Bottom Formatting Toolbar -->
+    <LinearLayout
+        android:id="@+id/bottomToolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="170dp"
-        android:src="@drawable/ic_file"
-        android:visibility="gone"
-        app:backgroundTint="@color/primary"
-        app:tint="@android:color/white"
-        android:layout_gravity="bottom|end" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="12dp"
+        android:background="@color/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Add Music -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabMusic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="240dp"
-        android:src="@drawable/ic_music"
-        android:visibility="gone"
-        app:backgroundTint="@color/primary"
-        app:tint="@android:color/white" />
+        <ImageView android:id="@+id/formatIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_text_format"
+            android:contentDescription="Format" />
 
+        <ImageView android:id="@+id/bulletIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_list_bullet"
+            android:contentDescription="Bullet" />
 
+        <ImageView android:id="@+id/checklistIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_checklist"
+            android:contentDescription="Checklist" />
 
+        <ImageView android:id="@+id/tableIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_table"
+            android:contentDescription="Table" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <ImageView android:id="@+id/attachIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_attach"
+            android:contentDescription="Attach" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

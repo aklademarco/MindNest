@@ -11,12 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
-    List<Map<String, Object>> noteList;
+    private List<Map<String, Object>> noteList;
 
     public NoteAdapter(List<Map<String, Object>> noteList) {
         this.noteList = noteList;
@@ -33,10 +36,18 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         Map<String, Object> note = noteList.get(position);
-        holder.title.setText((String) note.get("title"));
-        holder.body.setText((String) note.get("body"));
+        String title = (String) note.get("title");
+        holder.title.setText(title);
 
-        // 🔴 Long-click to delete
+        Object timestampObj = note.get("timestamp");
+        if (timestampObj instanceof Long) {
+            long timestamp = (Long) timestampObj;
+            String formattedDate = formatTimestamp(timestamp);
+            holder.date.setText(formattedDate);
+        } else {
+            holder.date.setText(""); // fallback
+        }
+
         holder.itemView.setOnLongClickListener(v -> {
             String noteId = (String) note.get("id");
             FirebaseFirestore.getInstance().collection("notes")
@@ -59,13 +70,18 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         return noteList.size();
     }
 
-    public static class NoteViewHolder extends RecyclerView.ViewHolder {
-        TextView title, body;
+    static class NoteViewHolder extends RecyclerView.ViewHolder {
+        TextView title, date;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.noteTitle);
-            body = itemView.findViewById(R.id.noteBody);
+            date = itemView.findViewById(R.id.noteDate);
         }
+    }
+
+    private String formatTimestamp(long timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yy", Locale.getDefault());
+        return sdf.format(new Date(timestamp));
     }
 }
